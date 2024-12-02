@@ -35,8 +35,8 @@ Follow these steps to set up the Cold Email Synthesizer locally:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/cold-email-synthesizer.git
-   cd cold-email-synthesizer
+   git clone https://github.com/your-username/Cold_Email_Generator.git
+   cd Cold_Email_Generator
    ```
 
 2. **Set Up a Virtual Environment**:
@@ -52,7 +52,7 @@ Follow these steps to set up the Cold Email Synthesizer locally:
 
 4. **Run the Application**:
    ```bash
-   streamlit run app.py
+   streamlit run main.py
    ```
 
 5. **Access the Application**:
