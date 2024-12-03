@@ -310,52 +310,52 @@ Angular | .NET | SQL Server,https://example.com/angular-portfolio"""
         
         generate_email_button = st.button("Synthesize Email")
 
-if generate_email_button or st.session_state.get('email_generation_triggered', False):
-    if not url_input:
-        st.error("Error: Target Web Page URL Required!")
-    else:
-        try:
-            with st.spinner('Initializing Cold Email Protocol...'):
-                loader = WebBaseLoader([url_input])
-                data = clean_text(loader.load().pop().page_content)
+        if generate_email_button or st.session_state.get('email_generation_triggered', False):
+            if not url_input:
+                st.error("Error: Target Web Page URL Required!")
+            else:
+                try:
+                    with st.spinner('Initializing Cold Email Protocol...'):
+                        loader = WebBaseLoader([url_input])
+                        data = clean_text(loader.load().pop().page_content)
 
-                # Add logging/print to verify data extraction
-                print("Extracted Job Data:", data)
+                        # Add logging/print to verify data extraction
+                        print("Extracted Job Data:", data)
 
-                jobs = llm.extract_jobs(data)
+                        jobs = llm.extract_jobs(data)
 
-                # Add logging/print to verify job extraction
-                print("Extracted Jobs:", jobs)
+                        # Add logging/print to verify job extraction
+                        print("Extracted Jobs:", jobs)
 
-                if not jobs:
-                    st.warning("No jobs could be extracted from the provided URL.")
+                        if not jobs:
+                            st.warning("No jobs could be extracted from the provided URL.")
 
-                for job in jobs:
-                    skills = job.get('skills', [])
+                        for job in jobs:
+                            skills = job.get('skills', [])
 
-                    # Add logging for skills
-                    print("Job Skills:", skills)
+                            # Add logging for skills
+                            print("Job Skills:", skills)
 
-                    links = portfolio.query_links(skills)
+                            links = portfolio.query_links(skills)
 
-                    # Add logging for links
-                    print("Matching Portfolio Links:", links)
+                            # Add logging for links
+                            print("Matching Portfolio Links:", links)
 
-                    email = llm.write_mail(job, links, st.session_state.context)
+                            email = llm.write_mail(job, links, st.session_state.context)
 
-                    # Add logging for email generation
-                    print("Generated Email:", email)
+                            # Add logging for email generation
+                            print("Generated Email:", email)
 
-                    st.markdown(f"### 📡 Synthesized Cold Email")
-                    st.code(email, language='markdown')
-                    
-                    # Reset the trigger after successful generation
-                    st.session_state.email_generation_triggered = False
+                            st.markdown(f"### 📡 Synthesized Cold Email")
+                            st.code(email, language='markdown')
+                            
+                            # Reset the trigger after successful generation
+                            st.session_state.email_generation_triggered = False
 
-        except Exception as e:
-            # More detailed error tracing
-            st.error(f"Quantum Synthesis Error: {e}")
-            st.error(traceback.format_exc())
+                except Exception as e:
+                    # More detailed error tracing
+                    st.error(f"Quantum Synthesis Error: {e}")
+                    st.error(traceback.format_exc())
 
 if __name__ == "__main__":
     llm = Chain()
